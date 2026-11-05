@@ -55,8 +55,13 @@
   <footer>Made by Chloe Hewer · <a href="../privacy-policy.html">Privacy policy</a></footer>
 </main>
 <script>
+  // pass utm_source / utm_campaign (e.g. ?utm_source=facebook&utm_campaign=launch) on to Google Play,
+  // so Play Console shows how many installs each ad or post brought in. No cookies, no tracking here.
+  const play = document.getElementById('play'), q = new URLSearchParams(location.search), ref = new URLSearchParams();
+  for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) if (q.get(k)) ref.set(k, q.get(k));
+  if ([...ref].length) play.href += '&referrer=' + encodeURIComponent(ref.toString());
   // on an Android phone, go straight to the game's page in the Play Store
-  if (/Android/i.test(navigator.userAgent)) location.replace(document.getElementById('play').href);
+  if (/Android/i.test(navigator.userAgent)) location.replace(play.href);
 </script>
 </body>
 </html>
